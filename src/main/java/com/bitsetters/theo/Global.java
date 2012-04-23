@@ -15,11 +15,77 @@ public class Global {
         env.put("-", new ProcSub());
         env.put("*", new ProcMul());
         env.put("/", new ProcDiv());
+        env.put("if", new ProcIf());
+        env.put(">", new ProcGreater());
+        env.put(">=", new ProcGreaterEq());
+        env.put("<", new ProcLess());
+        env.put("<=", new ProcLessEq());
+        Procedure eq = new ProcEq();
+        env.put("eq?", eq);
+        env.put("=", eq);
+        env.put("not", new ProcNot());
         return env;
     }
 
     public interface Procedure {
         public abstract Object execute(String[] objs);
+    }
+
+    public static class ProcIf implements  Procedure {
+        public Object execute(String[] objs) {
+            boolean condition = Boolean.parseBoolean(objs[0]);
+            if(condition)
+                return objs[1];
+            else
+                return objs[2];
+        }
+    }
+
+    public static class ProcEq implements Procedure {
+        public Object execute(String[] objs) {
+            long val1 = Long.parseLong(objs[0]);
+            long val2 = Long.parseLong(objs[1]);
+            return (val1 == val2);
+        }
+    }
+
+    public static class ProcNot implements Procedure {
+        public Object execute(String[] objs) {
+            boolean val1 = Boolean.parseBoolean(objs[0]);
+            return !val1;
+        }
+    }
+
+    public static class ProcGreater implements Procedure {
+        public Object execute(String[] objs) {
+            long val1 = Long.parseLong(objs[0]);
+            long val2 = Long.parseLong(objs[1]);
+            return (val1 > val2);
+        }
+    }
+
+    public static class ProcGreaterEq implements Procedure {
+        public Object execute(String[] objs) {
+            long val1 = Long.parseLong(objs[0]);
+            long val2 = Long.parseLong(objs[1]);
+            return (val1 >= val2);
+        }
+    }
+
+    public static class ProcLessEq implements Procedure {
+        public Object execute(String[] objs) {
+            long val1 = Long.parseLong(objs[0]);
+            long val2 = Long.parseLong(objs[1]);
+            return (val1 <= val2);
+        }
+    }
+
+    public static class ProcLess implements Procedure {
+        public Object execute(String[] objs) {
+            long val1 = Long.parseLong(objs[0]);
+            long val2 = Long.parseLong(objs[1]);
+            return (val1 < val2);
+        }
     }
 
     public static class ProcAdd implements Procedure {

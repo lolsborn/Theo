@@ -9,16 +9,29 @@ import java.io.InputStreamReader;
  */
 public class Repl {
 
-    public static void main(String[] args) throws Exception {
-        Interpreter i = new Interpreter();
+    private static boolean exit = false;
 
-        while (true) {
-            System.out.println(">");
+    public static void main(String[] args) throws Exception {
+
+        Interpreter i = new Interpreter();
+        i.env.put("exit", new ProcExit());
+
+        while (!exit) {
+            System.out.print("> ");
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             String input = br.readLine();
             i.eval(input);
         }
 
     }
+
+    private static class ProcExit implements Global.Procedure {
+
+        public Object execute(String[] objs) {
+            exit = true;
+            return new Nil();
+        }
+    }
+
 
 }

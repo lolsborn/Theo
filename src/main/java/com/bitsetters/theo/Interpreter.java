@@ -24,21 +24,18 @@ public class Interpreter {
         env = global.globalEnv();
     }
 
-    public static void main(String[] args) {
-    }
-
     public void eval(String code) throws Exception {
         LinkedList<String> tokens = tokenize(code);
         for(String token : tokens) {
             stack.push(token);
             if(token.equals(")")) {
                 String[] op = popOperation();
-
-                Long ret = (Long) call(op);
-                stack.push(Long.toString(ret));
+                Object ret = call(op);
+                stack.push(ret.toString());
             }
         }
-        System.out.println("RESULT: " + stack.pop());
+        Object ret = stack.pop();
+        System.out.println(ret); // print result
     }
 
     public String[] popOperation() {
@@ -101,5 +98,6 @@ public class Interpreter {
         }
         return tokenList;
     }
+
 
 }

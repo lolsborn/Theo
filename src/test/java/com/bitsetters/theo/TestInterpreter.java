@@ -35,6 +35,21 @@ public class TestInterpreter {
         }
     }
 
+    @Test public void test_ProcEq() {
+
+    }
+
+    @Test public void test_ProcNot() {
+    }
+
+    @Test public void test_ProcIf() {
+        String ret = (String) new Global.ProcIf().execute(new String[] {"false", "1", "2"});
+        Assert.assertEquals(2, Long.parseLong(ret));
+
+        ret = (String) new Global.ProcIf().execute(new String[] {"true", "1", "2"});
+        Assert.assertEquals(1, Long.parseLong(ret));
+    }
+
     @Test public void test_ProcAdd() {
         long ret = (Long) new Global.ProcAdd().execute(new String[] {"11", "11", "40", "4", "1"});
         Assert.assertEquals(67, ret);
